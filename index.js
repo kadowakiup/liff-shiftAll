@@ -5,9 +5,9 @@ const TARGET_MONTH = 5;
 
 // 休業日の設定（YYYY-MM-DD形式）
 const holidays = [
-  `${TARGET_YEAR}-05-03`,
-  `${TARGET_YEAR}-05-04`,
-  `${TARGET_YEAR}-05-05`
+  // `${TARGET_YEAR}-05-03`,
+  // `${TARGET_YEAR}-05-04`,
+  // `${TARGET_YEAR}-05-05`
 ];
 
 const startRules = {
