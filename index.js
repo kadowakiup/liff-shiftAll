@@ -1,6 +1,6 @@
 // index.js
 const GAS_URL = "https://script.google.com/macros/s/AKfycbw1R3VVsXwZnlo0whZY4jGufYB4uGr-120knnGsranSOCYxaZCBxAqsMc2-tiKi9uJL/exec";
-const TARGET_YEAR = 2024; // 運用に合わせて年を設定
+const TARGET_YEAR = 2026; // 運用に合わせて年を設定
 const TARGET_MONTH = 5;
 
 // 休業日の設定（YYYY-MM-DD形式）
