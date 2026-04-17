@@ -81,10 +81,13 @@ function renderMayShifts(shiftData) {
   shiftListDiv.innerHTML = "";
 
   const today = new Date();
-  today.setHours(0, 0, 0, 0); // 時間の差分による判定ズレを防ぐため0時リセット
+  today.setHours(0, 0, 0, 0);
 
-  for (let day = 1; day <= 31; day++) {
-    const dateStr = `${TARGET_YEAR}-05-${String(day).padStart(2, "0")}`;
+  // ★ 31固定ではなく、その月の最終日を取得するように修正
+  const lastDay = new Date(TARGET_YEAR, TARGET_MONTH, 0).getDate();
+
+  for (let day = 1; day <= lastDay; day++) {
+    const dateStr = `${TARGET_YEAR}-${String(TARGET_MONTH).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
     const targetDate = new Date(`${dateStr}T00:00:00`);
     
     // 既存シフトの取得（配列の最初の要素を想定）
