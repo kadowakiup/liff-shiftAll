@@ -34,7 +34,6 @@ body #shift-list {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px;
 }
 body #shift-list .shift-row {
   width: 200px;
@@ -42,6 +41,8 @@ body #shift-list .shift-row {
   display: inline-flex;
   align-items: center;
   gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #cbcbcb;
 }
 body #shift-list .shift-row > span {
   text-align: center;
