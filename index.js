@@ -94,7 +94,7 @@ window.onload = async function () {
       const end = endSelect.value;
 
       // 日付の表示形式を整える (例: 2026-04-18 -> 18日)
-      const dayDisplay = `${parseInt(dateStr.split("-")[2])}`;
+      const dayDisplay = `${parseInt(dateStr.split("-")[2])}日`;
 
       // 確認画面用のテキスト作成
       if (start && end) {
@@ -210,7 +210,7 @@ function renderMayShifts(shiftData) {
     row.dataset.originalEnd = endVal;
 
     const dateLabel = document.createElement("span");
-    dateLabel.textContent = `${day}`;
+    dateLabel.textContent = `${day}日`;
     dateLabel.style.width = "40px";
     row.appendChild(dateLabel);
 
