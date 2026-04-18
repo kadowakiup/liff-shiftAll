@@ -223,10 +223,14 @@ function renderMayShifts(shiftData) {
     row.dataset.originalStart = startVal; // ★追加：元の出勤時間
     row.dataset.originalEnd = endVal;
 
+    // === ★追加：曜日を日本語にするためのリスト ===
+    const weekNames = ["日", "月", "火", "水", "木", "金", "土"];
+    const dayOfWeek = targetDate.getDay();
+
     const dateLabel = document.createElement("span");
     dateLabel.className = "shift-row_date";
-    dateLabel.textContent = `${day}日`;
-    dateLabel.style.width = "40px";
+    dateLabel.textContent = `${day}日(${weekNames[dayOfWeek]})`; 
+    dateLabel.style.width = "60px";
 
     // === ★ここから追加：祝日と土日の色を変更 ===
     const dayOfWeek = targetDate.getDay();
