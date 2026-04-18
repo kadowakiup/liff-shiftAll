@@ -158,9 +158,11 @@ function createDropdown(rules, selectedValue, dateStr) {
     for (const m of rules[h]) {
       const timeStr = `${String(h).padStart(2, "0")}:${m}`;
       
-      // 今の時間以降かどうかの判定
       const dt = new Date(`${dateStr}T${timeStr}:00`);
-      if (dt < now) continue; 
+      
+      // ▼ ここを変更：過去の時間でも、既存シフトと同じ時間なら残す ▼
+      if (dt < now && timeStr !== selectedValue) continue; 
+      // ▲ ここまで ▲
 
       const opt = document.createElement("option");
       opt.value = timeStr;
