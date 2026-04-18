@@ -166,7 +166,7 @@ window.onload = async function () {
       if (!data.success) throw new Error(data.message || "提出に失敗しました");
 
       alert("シフトの提出が完了しました！");
-      window.location.reload();
+      liff.closeWindow();
 
     } catch (err) {
       console.error(err);
