@@ -24,7 +24,7 @@ const endRules = {
 
 window.onload = async function () {
   document.getElementById("page-title").textContent = `${TARGET_MONTH}月シフト提出`;
-  
+
   const resultDiv = document.getElementById("result");
   const shiftListDiv = document.getElementById("shift-list");
   const submitBtn = document.getElementById("submit-btn");
@@ -59,6 +59,9 @@ window.onload = async function () {
     }
 
     renderMayShifts(data.shifts || {});
+
+    pageTitle.textContent = `${TARGET_MONTH}月シフト提出`;
+    pageTitle.style.display = "block";
     submitBtn.style.display = "block";
 
   } catch (err) {
