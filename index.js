@@ -210,7 +210,7 @@ function renderMayShifts(shiftData) {
     row.dataset.originalEnd = endVal;
 
     const dateLabel = document.createElement("span");
-    dateLabel.textContent = `${day}日`;
+    dateLabel.textContent = `${day}`;
     dateLabel.style.width = "40px";
     row.appendChild(dateLabel);
 
