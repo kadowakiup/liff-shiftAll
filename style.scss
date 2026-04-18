@@ -32,6 +32,22 @@ body {
         font-size: 20px;
         text-align: center;
     }
-
+    #shift-list {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        .shift-row {
+            width: 200px;
+            justify-content: flex-start;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            > span {
+                text-align: center;
+            }
+        }
+    }
 }
 

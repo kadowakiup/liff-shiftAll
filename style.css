@@ -29,4 +29,21 @@ body .kousintyu {
   font-weight: 600;
   font-size: 20px;
   text-align: center;
+}
+body #shift-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+body #shift-list .shift-row {
+  width: 200px;
+  justify-content: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+body #shift-list .shift-row > span {
+  text-align: center;
 }/*# sourceMappingURL=style.css.map */
