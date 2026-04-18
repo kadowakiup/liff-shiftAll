@@ -56,14 +56,11 @@ body {
         justify-content: center;
         margin-bottom: 60px;
         #submit-btn {
-            font-size: 22px;
-            line-height: 1;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            color: #01b6ff;
-            pointer-events: auto;
-            opacity: 1;
+            padding: 10px;
+            background-color: #01b6ff;
+            color: #fff;
+            border-radius: 4px;
+            margin-top: 6px;
         }
     }
     
