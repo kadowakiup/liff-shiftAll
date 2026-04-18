@@ -22,6 +22,18 @@ const endRules = {
   18: ["00", "15", "30", "45"], 19: ["00", "15", "30", "45"], 20: ["00", "15", "30", "45"], 21: ["00"]
 };
 
+let nationalHolidays = {}; // ★追加：祝日データを保存する変数
+
+// ★追加：日本の祝日データを取得する関数
+async function loadHolidays() {
+  try {
+    const res = await fetch("https://holidays-jp.github.io/api/v1/date.json");
+    nationalHolidays = await res.json();
+  } catch (err) {
+    console.error("祝日データの取得に失敗しました", err);
+  }
+}
+
 window.onload = async function () {
   const resultDiv = document.getElementById("result");
   const shiftListDiv = document.getElementById("shift-list");
@@ -46,6 +58,8 @@ window.onload = async function () {
     // 更新中ステータス表示
     resultDiv.textContent = "更新中...";
     resultDiv.classList.add("kousintyu");
+
+    await loadHolidays(); // ★追加：シフトを取得する前に祝日データを読み込む
 
     const profile = await liff.getProfile();
     const url = `${GAS_URL}?action=fetch&userId=${encodeURIComponent(profile.userId)}&name=${encodeURIComponent(profile.displayName)}&idToken=${encodeURIComponent(idToken)}&t=${Date.now()}`;
@@ -213,6 +227,18 @@ function renderMayShifts(shiftData) {
     dateLabel.className = "shift-row_date";
     dateLabel.textContent = `${day}日`;
     dateLabel.style.width = "40px";
+
+    // === ★ここから追加：祝日と土日の色を変更 ===
+    const dayOfWeek = targetDate.getDay();
+    if (nationalHolidays[dateStr]) {
+      dateLabel.style.color = "#ff4d8d"; // 祝日（赤）
+    } else if (dayOfWeek === 0) {
+      dateLabel.style.color = "#ff4d8d"; // 日曜日（赤）
+    } else if (dayOfWeek === 6) {
+      dateLabel.style.color = "#01b6ff"; // 土曜日（青）
+    }
+    // === ★ここまで ===
+
     row.appendChild(dateLabel);
 
     // 休業日判定
