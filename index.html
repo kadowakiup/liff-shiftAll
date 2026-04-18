@@ -4,19 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>5月シフト入力</title>
-  <style>
-    .shift-row { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
-    .kousintyu { color: #01b6ff; font-weight: bold; } /* 更新中のスタイル */
-    .holiday-text { color: #ff4d8d; }
-    .past-text { color: #888; }
-  </style>
-</head>
-<body>
-  <div id="result"></div>
-  <div id="shift-list"></div>
-  <button id="submit-btn" style="display: none; margin-top: 20px;">提出</button>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" href="style.css">
 
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   <script src="index.js"></script>
+</head>
+<body>
+  <div id="result"></div>
+  <h1 id="page-title" class="title"></h1>
+  <div id="shift-list"></div>
+  <button id="submit-btn" style="display: none; margin-top: 20px;">提出</button>
 </body>
 </html>
