@@ -54,7 +54,7 @@ body #shift-list .shift-row > span {
 body #shift-list .shift-row > select {
   padding: 4px;
   border-radius: 4px;
-  background-color: #cbcbcb;
+  background-color: #e7e7e7;
 }
 body #shift-list .shift-row.dont {
   color: #888;
