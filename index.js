@@ -65,7 +65,7 @@ window.onload = async function () {
 
   } catch (err) {
     console.error(err);
-    resultDiv.textContent = "取得エラー: " + err.message;
+    resultDiv.textContent = "取得エラー: " + err.message + "：先にメニュー「登録」から自分の名前を登録してください";
   } finally {
     resultDiv.classList.remove("kousintyu");
     if (!resultDiv.textContent.includes("エラー")) resultDiv.textContent = "";
