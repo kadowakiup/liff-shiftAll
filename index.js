@@ -29,7 +29,7 @@ window.onload = async function () {
   const pageTitle = document.getElementById("page-title");
 
   try {
-    await liff.init({ liffId: "2009569390-K8RpTDye" });
+    await liff.init({ liffId: "2009827198-MNhumUto" });
 
     if (!liff.isLoggedIn()) {
       resultDiv.innerHTML = "LINEログインへ移動します…";
