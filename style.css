@@ -15,6 +15,7 @@ body {
   font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans", sans-serif;
   width: 100vw;
   height: 100vh;
+  color: #333;
 }
 body .kousintyu {
   color: #01b6ff;
@@ -49,6 +50,11 @@ body #shift-list .shift-row {
 body #shift-list .shift-row > span {
   text-align: center;
   font-family: "Roboto", sans-serif;
+}
+body #shift-list .shift-row > select {
+  padding: 4px;
+  border-radius: 4px;
+  background-color: #cbcbcb;
 }
 body #shift-list .shift-row.dont {
   color: #888;

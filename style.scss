@@ -19,6 +19,7 @@ body {
     sans-serif;
     width: 100vw;
     height: 100vh;
+    color: #333;
     .kousintyu {
         color: #01b6ff;
         line-height: 100vh;
@@ -50,6 +51,11 @@ body {
             > span {
                 text-align: center;
                 font-family: 'Roboto', sans-serif;
+            }
+            > select {
+                padding: 4px;
+                border-radius: 4px;
+                background-color: #cbcbcb;
             }
             &.dont {
                 color: #888;
