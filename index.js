@@ -23,11 +23,10 @@ const endRules = {
 };
 
 window.onload = async function () {
-  document.getElementById("page-title").textContent = `${TARGET_MONTH}月シフト提出`;
-
   const resultDiv = document.getElementById("result");
   const shiftListDiv = document.getElementById("shift-list");
   const submitBtn = document.getElementById("submit-btn");
+  const pageTitle = document.getElementById("page-title");
 
   try {
     await liff.init({ liffId: "2009569390-K8RpTDye" });
