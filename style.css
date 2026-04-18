@@ -48,6 +48,10 @@ body #shift-list .shift-row {
 body #shift-list .shift-row > span {
   text-align: center;
 }
+body #shift-list .shift-row.dont {
+  background-color: #e7e7e7;
+  color: #888;
+}
 body .button-container {
   display: flex;
   justify-content: center;
@@ -58,4 +62,6 @@ body .button-container #submit-btn {
   background-color: #01b6ff;
   color: #fff;
   border-radius: 4px;
+  width: 200px;
+  font-weight: 600;
 }/*# sourceMappingURL=style.css.map */

@@ -49,6 +49,10 @@ body {
             > span {
                 text-align: center;
             }
+            &.dont {
+                background-color: #e7e7e7;
+                color: #888;
+            }
         }
     }
     .button-container {
@@ -60,6 +64,8 @@ body {
             background-color: #01b6ff;
             color: #fff;
             border-radius: 4px;
+            width: 200px;
+            font-weight: 600;
         }
     }
     
