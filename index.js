@@ -28,7 +28,7 @@ window.onload = async function () {
   const submitBtn = document.getElementById("submit-btn");
 
   try {
-    await liff.init({ liffId: "2009569390-ToBfmkCN" });
+    await liff.init({ liffId: "2009569390-K8RpTDye" });
 
     if (!liff.isLoggedIn()) {
       resultDiv.innerHTML = "LINEログインへ移動します…";
