@@ -37,6 +37,7 @@ body {
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        margin-bottom: 20px;
         .shift-row {
             width: 200px;
             justify-content: flex-start;
@@ -49,6 +50,9 @@ body {
                 text-align: center;
             }
         }
+    }
+    #submit-btn {
+        margin-bottom: 40px;
     }
 }
 

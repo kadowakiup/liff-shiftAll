@@ -34,6 +34,7 @@ body #shift-list {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 20px;
 }
 body #shift-list .shift-row {
   width: 200px;
@@ -46,4 +47,7 @@ body #shift-list .shift-row {
 }
 body #shift-list .shift-row > span {
   text-align: center;
+}
+body #submit-btn {
+  margin-bottom: 40px;
 }/*# sourceMappingURL=style.css.map */
