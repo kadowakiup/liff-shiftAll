@@ -54,7 +54,7 @@ window.onload = async function () {
     const data = await res.json();
 
     if (!data.success) {
-      throw new Error(data.message || "シフト取得に失敗しました");
+      throw new Error(data.message || "シフト取得に失敗しました" + "：先にメニュー「登録」から自分の名前を登録してください");
     }
 
     renderMayShifts(data.shifts || {});
