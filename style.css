@@ -51,12 +51,11 @@ body #shift-list .shift-row > span {
 body .button-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 60px;
+  padding-bottom: 60px;
 }
 body .button-container #submit-btn {
   padding: 10px;
   background-color: #01b6ff;
   color: #fff;
   border-radius: 4px;
-  margin-top: 6px;
 }/*# sourceMappingURL=style.css.map */

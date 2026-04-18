@@ -220,6 +220,7 @@ function renderMayShifts(shiftData) {
       holidaySpan.className = "holiday-text";
       holidaySpan.textContent = "休業日";
       row.appendChild(holidaySpan);
+      row.classList.add("dont");
       shiftListDiv.appendChild(row);
       continue;
     }
@@ -230,6 +231,7 @@ function renderMayShifts(shiftData) {
       pastSpan.className = "past-text";
       pastSpan.textContent = existingShift ? `${startVal} - ${endVal}` : "入力不可";
       row.appendChild(pastSpan);
+      row.classList.add("dont");
       shiftListDiv.appendChild(row);
       continue;
     }

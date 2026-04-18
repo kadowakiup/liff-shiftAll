@@ -54,13 +54,12 @@ body {
     .button-container {
         display: flex;
         justify-content: center;
-        margin-bottom: 60px;
+        padding-bottom: 60px;
         #submit-btn {
             padding: 10px;
             background-color: #01b6ff;
             color: #fff;
             border-radius: 4px;
-            margin-top: 6px;
         }
     }
     
