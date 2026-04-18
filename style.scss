@@ -45,12 +45,12 @@ body {
             justify-content: flex-start;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
             padding: 10px 0;
             border-bottom: 1px solid #cbcbcb;
             &_date {
                 text-align: center;
                 font-family: 'Roboto', sans-serif;
+                padding-right: 10px;
             }
             > select {
                 padding: 4px;
@@ -59,6 +59,18 @@ body {
             }
             &.dont {
                 color: #888;
+            }
+            .separator {
+                display: inline-block; /* 幅と高さを持てるようにする */
+                width: 20px;           /* 棒の長さ */
+                vertical-align: middle;
+                &::before {
+                    content: "";
+                    display: block;
+                    width: 80%;
+                    height: 1px;
+                    background: #cbcbcb;
+                }
             }
         }
     }

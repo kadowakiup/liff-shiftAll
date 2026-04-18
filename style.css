@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .holiday-text {
   color: #ff4d8d;
 }
@@ -43,13 +44,13 @@ body #shift-list .shift-row {
   justify-content: flex-start;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
   padding: 10px 0;
   border-bottom: 1px solid #cbcbcb;
 }
 body #shift-list .shift-row_date {
   text-align: center;
   font-family: "Roboto", sans-serif;
+  padding-right: 10px;
 }
 body #shift-list .shift-row > select {
   padding: 4px;
@@ -58,6 +59,18 @@ body #shift-list .shift-row > select {
 }
 body #shift-list .shift-row.dont {
   color: #888;
+}
+body #shift-list .shift-row .separator {
+  display: inline-block; /* 幅と高さを持てるようにする */
+  width: 20px; /* 棒の長さ */
+  vertical-align: middle;
+}
+body #shift-list .shift-row .separator::before {
+  content: "";
+  display: block;
+  width: 80%;
+  height: 1px;
+  background: #cbcbcb;
 }
 body .button-container {
   display: flex;

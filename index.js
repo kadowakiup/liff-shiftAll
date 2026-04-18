@@ -243,6 +243,7 @@ function renderMayShifts(shiftData) {
     
     const separator = document.createElement("span");
     separator.textContent = " - ";
+    separator.className = "separator";
 
     const endSelect = createDropdown(endRules, endVal, dateStr);
     endSelect.className = "end-time";
