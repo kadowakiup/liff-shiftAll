@@ -75,9 +75,13 @@ window.onload = async function () {
     const rows = document.querySelectorAll(".shift-row");
     let hasError = false;
 
+    // === 提出ボタンの処理（該当部分のみ抜粋） ===
     rows.forEach(row => {
       const dateStr = row.dataset.date;
       const shiftId = row.dataset.shiftId || "";
+      const originalStart = row.dataset.originalStart || ""; // ★追加
+      const originalEnd = row.dataset.originalEnd || "";     // ★追加
+
       const startSelect = row.querySelector(".start-time");
       const endSelect = row.querySelector(".end-time");
 
@@ -103,13 +107,15 @@ window.onload = async function () {
         }
       }
 
-      // 何も入っていなくても送信OK（完全自由シフトのため）
-      shiftsToSubmit.push({
-        date: dateStr,
-        start: start,
-        end: end,
-        id: shiftId
-      });
+      // ★ここを変更：元の時間から変わっている場合だけ配列に追加する
+      if (start !== originalStart || end !== originalEnd) {
+        shiftsToSubmit.push({
+          date: dateStr,
+          start: start,
+          end: end,
+          id: shiftId
+        });
+      }
     });
 
     if (hasError) {
@@ -117,8 +123,14 @@ window.onload = async function () {
       return;
     }
 
-    // 2. 確認画面
-    if (!confirm("入力したシフトを提出しますか？")) {
+    // ★追加：変更が1つもなかった場合は送信せずに終わる
+    if (shiftsToSubmit.length === 0) {
+      alert("変更されたシフトがありません。");
+      return;
+    }
+
+    // ★おまけ：何件変更されたか確認画面に出すようにしました
+    if (!confirm(`${shiftsToSubmit.length}件のシフトを提出しますか？`)) {
       return;
     }
 
@@ -189,7 +201,9 @@ function renderMayShifts(shiftData) {
     const row = document.createElement("div");
     row.className = "shift-row";
     row.dataset.date = dateStr;
-    row.dataset.shiftId = existingShift ? (existingShift.id || "") : ""; // 更新用にIDを保持
+    row.dataset.shiftId = existingShift ? (existingShift.id || "") : "";
+    row.dataset.originalStart = startVal; // ★追加：元の出勤時間
+    row.dataset.originalEnd = endVal;
 
     const dateLabel = document.createElement("span");
     dateLabel.textContent = `${day}日`;
