@@ -68,10 +68,101 @@ window.onload = async function () {
   }
 
   // 提出ボタンの確認画面（送信用ロジックは次の段階用）
-  submitBtn.addEventListener("click", () => {
-    if(confirm("シフトを提出しますか？")) {
-      // 次のステップでここにAnycrossへ送信する処理を追加します
-      alert("送信準備完了（次のステップで実装）");
+  // 提出ボタンの処理
+  submitBtn.addEventListener("click", async () => {
+    // 1. 送信用のデータを集める
+    const shiftsToSubmit = [];
+    const rows = document.querySelectorAll(".shift-row");
+    let hasError = false;
+
+    rows.forEach(row => {
+      const dateStr = row.dataset.date;
+      const shiftId = row.dataset.shiftId || "";
+      const startSelect = row.querySelector(".start-time");
+      const endSelect = row.querySelector(".end-time");
+
+      // プルダウンがない行（過去や休業日）はスキップ
+      if (!startSelect || !endSelect) return;
+
+      const start = startSelect.value;
+      const end = endSelect.value;
+
+      // エラーチェック1：片方だけ入力されている場合
+      if ((start && !end) || (!start && end)) {
+        hasError = true;
+        return;
+      }
+
+      // エラーチェック2：開始と終了の逆転
+      if (start && end) {
+        const startDt = new Date(`${dateStr}T${start}:00`);
+        const endDt = new Date(`${dateStr}T${end}:00`);
+        if (startDt >= endDt) {
+          hasError = true;
+          return;
+        }
+      }
+
+      // 何も入っていなくても送信OK（完全自由シフトのため）
+      shiftsToSubmit.push({
+        date: dateStr,
+        start: start,
+        end: end,
+        id: shiftId
+      });
+    });
+
+    if (hasError) {
+      alert("出勤・退勤時間の入力に誤りがある日が含まれています。\n時間を確認してください。");
+      return;
+    }
+
+    // 2. 確認画面
+    if (!confirm("入力したシフトを提出しますか？")) {
+      return;
+    }
+
+    // 3. GASへ送信
+    try {
+      submitBtn.disabled = true;
+      resultDiv.textContent = "提出中...";
+      resultDiv.classList.add("kousintyu");
+
+      const profile = await liff.getProfile();
+      const idToken = liff.getIDToken();
+
+      // POST通信で送るためのデータ作成
+      const formBody = new URLSearchParams({
+        action: "submitAll", // GAS側で受け取るための目印
+        userId: profile.userId,
+        name: profile.displayName,
+        idToken: idToken,
+        shiftsData: JSON.stringify(shiftsToSubmit) // 配列を文字列化して送信
+      });
+
+      const res = await fetch(GAS_URL, {
+        method: "POST",
+        body: formBody
+      });
+
+      const data = await res.json();
+
+      if (!data.success) {
+        throw new Error(data.message || "提出に失敗しました");
+      }
+
+      alert("シフトの提出が完了しました！");
+      
+      // 送信完了後、画面を最新状態にリロードする
+      window.location.reload();
+
+    } catch (err) {
+      console.error(err);
+      alert("エラーが発生しました: " + err.message);
+    } finally {
+      submitBtn.disabled = false;
+      resultDiv.textContent = "";
+      resultDiv.classList.remove("kousintyu");
     }
   });
 };
