@@ -30,6 +30,12 @@ body .kousintyu {
   font-size: 20px;
   text-align: center;
 }
+body .title {
+  text-align: center;
+  font-size: 18px;
+  padding-top: 20px;
+  margin: 0 auto 20px;
+}
 body #shift-list {
   display: flex;
   flex-direction: column;

@@ -32,6 +32,12 @@ body {
         font-size: 20px;
         text-align: center;
     }
+    .title {
+        text-align: center;
+        font-size: 18px;
+        padding-top: 20px;
+        margin: 0 auto 20px;
+    }
     #shift-list {
         display: flex;
         flex-direction: column;
