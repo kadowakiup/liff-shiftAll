@@ -61,16 +61,17 @@ body #shift-list .shift-row.dont {
   color: #888;
 }
 body #shift-list .shift-row .separator {
-  display: inline-block; /* 幅と高さを持てるようにする */
+  display: inline-flex; /* 幅と高さを持てるようにする */
   width: 20px; /* 棒の長さ */
   vertical-align: middle;
+  justify-content: center;
 }
 body #shift-list .shift-row .separator::before {
   content: "";
   display: block;
-  width: 80%;
+  width: 10px;
   height: 1px;
-  background: #cbcbcb;
+  background: #888;
 }
 body .button-container {
   display: flex;

@@ -61,15 +61,16 @@ body {
                 color: #888;
             }
             .separator {
-                display: inline-block; /* 幅と高さを持てるようにする */
+                display: inline-flex; /* 幅と高さを持てるようにする */
                 width: 20px;           /* 棒の長さ */
                 vertical-align: middle;
+                justify-content: center;
                 &::before {
                     content: "";
                     display: block;
-                    width: 80%;
+                    width: 10px;
                     height: 1px;
-                    background: #cbcbcb;
+                    background: #888;
                 }
             }
         }
