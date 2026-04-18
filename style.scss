@@ -38,6 +38,7 @@ body {
         justify-content: center;
         align-items: center;
         margin-bottom: 30px;
+        font-size: 14px;
         .shift-row {
             width: 200px;
             justify-content: flex-start;
@@ -48,9 +49,9 @@ body {
             border-bottom: 1px solid #cbcbcb;
             > span {
                 text-align: center;
+                font-family: 'Roboto', sans-serif;
             }
             &.dont {
-                background-color: #e7e7e7;
                 color: #888;
             }
         }

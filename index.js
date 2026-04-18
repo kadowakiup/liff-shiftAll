@@ -94,7 +94,7 @@ window.onload = async function () {
       const end = endSelect.value;
 
       // 日付の表示形式を整える (例: 2026-04-18 -> 18日)
-      const dayDisplay = `${parseInt(dateStr.split("-")[2])}日`;
+      const dayDisplay = `${parseInt(dateStr.split("-")[2])}`;
 
       // 確認画面用のテキスト作成
       if (start && end) {

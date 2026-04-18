@@ -35,6 +35,7 @@ body #shift-list {
   justify-content: center;
   align-items: center;
   margin-bottom: 30px;
+  font-size: 14px;
 }
 body #shift-list .shift-row {
   width: 200px;
@@ -47,9 +48,9 @@ body #shift-list .shift-row {
 }
 body #shift-list .shift-row > span {
   text-align: center;
+  font-family: "Roboto", sans-serif;
 }
 body #shift-list .shift-row.dont {
-  background-color: #e7e7e7;
   color: #888;
 }
 body .button-container {
