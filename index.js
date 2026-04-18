@@ -67,20 +67,18 @@ window.onload = async function () {
     if (!resultDiv.textContent.includes("エラー")) resultDiv.textContent = "";
   }
 
-  // 提出ボタンの確認画面（送信用ロジックは次の段階用）
   // 提出ボタンの処理
   submitBtn.addEventListener("click", async () => {
-    // 1. 送信用のデータを集める
     const shiftsToSubmit = [];
+    let confirmationMessage = "【入力内容の確認】\n";
     const rows = document.querySelectorAll(".shift-row");
     let hasError = false;
 
-    // === 提出ボタンの処理（該当部分のみ抜粋） ===
     rows.forEach(row => {
       const dateStr = row.dataset.date;
       const shiftId = row.dataset.shiftId || "";
-      const originalStart = row.dataset.originalStart || ""; // ★追加
-      const originalEnd = row.dataset.originalEnd || "";     // ★追加
+      const originalStart = row.dataset.originalStart || "";
+      const originalEnd = row.dataset.originalEnd || "";
 
       const startSelect = row.querySelector(".start-time");
       const endSelect = row.querySelector(".end-time");
@@ -91,13 +89,21 @@ window.onload = async function () {
       const start = startSelect.value;
       const end = endSelect.value;
 
-      // エラーチェック1：片方だけ入力されている場合
+      // 日付の表示形式を整える (例: 2026-04-18 -> 18日)
+      const dayDisplay = `${parseInt(dateStr.split("-")[2])}日`;
+
+      // 確認画面用のテキスト作成
+      if (start && end) {
+        confirmationMessage += `${dayDisplay}: ${start} - ${end}\n`;
+      } else {
+        confirmationMessage += `${dayDisplay}: シフトなし\n`;
+      }
+
+      // エラーチェック
       if ((start && !end) || (!start && end)) {
         hasError = true;
         return;
       }
-
-      // エラーチェック2：開始と終了の逆転
       if (start && end) {
         const startDt = new Date(`${dateStr}T${start}:00`);
         const endDt = new Date(`${dateStr}T${end}:00`);
@@ -107,7 +113,7 @@ window.onload = async function () {
         }
       }
 
-      // ★ここを変更：元の時間から変わっている場合だけ配列に追加する
+      // 変更があったデータだけを送信リストに入れる
       if (start !== originalStart || end !== originalEnd) {
         shiftsToSubmit.push({
           date: dateStr,
@@ -123,18 +129,18 @@ window.onload = async function () {
       return;
     }
 
-    // ★追加：変更が1つもなかった場合は送信せずに終わる
     if (shiftsToSubmit.length === 0) {
       alert("変更されたシフトがありません。");
       return;
     }
 
-    // ★おまけ：何件変更されたか確認画面に出すようにしました
-    if (!confirm(`${shiftsToSubmit.length}件のシフトを提出しますか？`)) {
+    // 確認画面：今日以降の全スケジュールを表示
+    confirmationMessage += "\n以上の内容で提出してもよろしいですか？";
+    if (!confirm(confirmationMessage)) {
       return;
     }
 
-    // 3. GASへ送信
+    // --- 以下、GASへの送信処理 ---
     try {
       submitBtn.disabled = true;
       resultDiv.textContent = "提出中...";
@@ -143,13 +149,12 @@ window.onload = async function () {
       const profile = await liff.getProfile();
       const idToken = liff.getIDToken();
 
-      // POST通信で送るためのデータ作成
       const formBody = new URLSearchParams({
-        action: "submitAll", // GAS側で受け取るための目印
+        action: "submitAll",
         userId: profile.userId,
         name: profile.displayName,
         idToken: idToken,
-        shiftsData: JSON.stringify(shiftsToSubmit) // 配列を文字列化して送信
+        shiftsData: JSON.stringify(shiftsToSubmit)
       });
 
       const res = await fetch(GAS_URL, {
@@ -158,14 +163,9 @@ window.onload = async function () {
       });
 
       const data = await res.json();
-
-      if (!data.success) {
-        throw new Error(data.message || "提出に失敗しました");
-      }
+      if (!data.success) throw new Error(data.message || "提出に失敗しました");
 
       alert("シフトの提出が完了しました！");
-      
-      // 送信完了後、画面を最新状態にリロードする
       window.location.reload();
 
     } catch (err) {
