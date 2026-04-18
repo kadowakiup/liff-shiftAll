@@ -47,7 +47,7 @@ body #shift-list .shift-row {
   padding: 10px 0;
   border-bottom: 1px solid #cbcbcb;
 }
-body #shift-list .shift-row > span {
+body #shift-list .shift-row_date {
   text-align: center;
   font-family: "Roboto", sans-serif;
 }
