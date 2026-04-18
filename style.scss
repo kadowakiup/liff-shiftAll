@@ -37,7 +37,7 @@ body {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
         .shift-row {
             width: 200px;
             justify-content: flex-start;
@@ -51,8 +51,21 @@ body {
             }
         }
     }
-    #submit-btn {
-        margin-bottom: 40px;
+    .button-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 60px;
+        #submit-btn {
+            font-size: 22px;
+            line-height: 1;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            color: #01b6ff;
+            pointer-events: auto;
+            opacity: 1;
+        }
     }
+    
 }
 

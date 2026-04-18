@@ -34,7 +34,7 @@ body #shift-list {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 body #shift-list .shift-row {
   width: 200px;
@@ -48,6 +48,18 @@ body #shift-list .shift-row {
 body #shift-list .shift-row > span {
   text-align: center;
 }
-body #submit-btn {
-  margin-bottom: 40px;
+body .button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 60px;
+}
+body .button-container #submit-btn {
+  font-size: 22px;
+  line-height: 1;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #01b6ff;
+  pointer-events: auto;
+  opacity: 1;
 }/*# sourceMappingURL=style.css.map */
