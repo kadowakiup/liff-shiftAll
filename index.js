@@ -98,6 +98,7 @@ function renderMayShifts(shiftData) {
     const row = document.createElement("div");
     row.className = "shift-row";
     row.dataset.date = dateStr;
+    row.dataset.shiftId = existingShift ? (existingShift.id || "") : ""; // 更新用にIDを保持
 
     const dateLabel = document.createElement("span");
     dateLabel.textContent = `${day}日`;
@@ -124,14 +125,14 @@ function renderMayShifts(shiftData) {
       continue;
     }
 
-    // プルダウン生成（今日以降）
-    const startSelect = createDropdown(startRules, startVal);
+    // プルダウン生成（今日以降） ★ dateStrを引数に追加
+    const startSelect = createDropdown(startRules, startVal, dateStr);
     startSelect.className = "start-time";
     
     const separator = document.createElement("span");
     separator.textContent = " - ";
 
-    const endSelect = createDropdown(endRules, endVal);
+    const endSelect = createDropdown(endRules, endVal, dateStr);
     endSelect.className = "end-time";
 
     row.appendChild(startSelect);
@@ -142,7 +143,8 @@ function renderMayShifts(shiftData) {
   }
 }
 
-function createDropdown(rules, selectedValue) {
+// ★ 引数に dateStr を追加し、過去の時間を除外する処理を実装
+function createDropdown(rules, selectedValue, dateStr) {
   const select = document.createElement("select");
   
   const defaultOpt = document.createElement("option");
@@ -150,12 +152,20 @@ function createDropdown(rules, selectedValue) {
   defaultOpt.textContent = "選択";
   select.appendChild(defaultOpt);
 
+  const now = new Date();
+
   for (const h in rules) {
     for (const m of rules[h]) {
       const timeStr = `${String(h).padStart(2, "0")}:${m}`;
+      
+      // 今の時間以降かどうかの判定
+      const dt = new Date(`${dateStr}T${timeStr}:00`);
+      if (dt < now) continue; 
+
       const opt = document.createElement("option");
       opt.value = timeStr;
       opt.textContent = timeStr;
+      
       if (timeStr === selectedValue) {
         opt.selected = true;
       }
