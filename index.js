@@ -233,7 +233,6 @@ function renderMayShifts(shiftData) {
     dateLabel.style.width = "60px";
 
     // === ★ここから追加：祝日と土日の色を変更 ===
-    const dayOfWeek = targetDate.getDay();
     if (nationalHolidays[dateStr]) {
       dateLabel.style.color = "#ff4d8d"; // 祝日（赤）
     } else if (dayOfWeek === 0) {
