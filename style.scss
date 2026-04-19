@@ -41,14 +41,13 @@ body {
         margin-bottom: 30px;
         font-size: 15px;
         .shift-row {
-            width: 220px;
+            width: 240px;
             justify-content: flex-start;
             display: inline-flex;
             align-items: center;
             padding: 12px 0;
             border-bottom: 1px solid #cbcbcb;
             &_date {
-                text-align: center;
                 font-family: 'Roboto', sans-serif;
                 padding-right: 20px;
                 font-weight: 600;
