@@ -126,8 +126,15 @@ window.onload = async function () {
     rows.forEach(row => {
       const dateStr = row.dataset.date;
       const shiftId = row.dataset.shiftId || "";
-      const originalStart = row.dataset.originalStart || "";
-      const originalEnd = row.dataset.originalEnd || "";
+      // ここ
+      // const originalStart = row.dataset.originalStart || "";
+      // const originalEnd = row.dataset.originalEnd || "";
+      let originalStart = (row.dataset.originalStart || "").trim();
+      if (originalStart === "null" || originalStart === "undefined") originalStart = "";
+
+      let originalEnd = (row.dataset.originalEnd || "").trim();
+      if (originalEnd === "null" || originalEnd === "undefined") originalEnd = "";
+      // ここ
 
       const startSelect = row.querySelector(".start-time");
       const endSelect = row.querySelector(".end-time");
