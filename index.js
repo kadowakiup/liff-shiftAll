@@ -117,24 +117,144 @@ window.onload = async function () {
   }
 
   // 提出ボタンの処理
+  // submitBtn.addEventListener("click", async () => {
+  //   const shiftsToSubmit = [];
+  //   let confirmationMessage = "【入力内容の確認】\n";
+  //   const rows = document.querySelectorAll(".shift-row");
+  //   let hasError = false;
+
+  //   rows.forEach(row => {
+  //     const dateStr = row.dataset.date;
+  //     const shiftId = row.dataset.shiftId || "";
+  //     // ここ
+  //     // const originalStart = row.dataset.originalStart || "";
+  //     // const originalEnd = row.dataset.originalEnd || "";
+  //     let originalStart = (row.dataset.originalStart || "").trim();
+  //     if (originalStart === "null" || originalStart === "undefined") originalStart = "";
+
+  //     let originalEnd = (row.dataset.originalEnd || "").trim();
+  //     if (originalEnd === "null" || originalEnd === "undefined") originalEnd = "";
+  //     // ここ
+
+  //     const startSelect = row.querySelector(".start-time");
+  //     const endSelect = row.querySelector(".end-time");
+
+  //     // プルダウンがない行（過去や休業日）はスキップ
+  //     if (!startSelect || !endSelect) return;
+
+  //     const start = startSelect.value;
+  //     const end = endSelect.value;
+
+  //     // 日付の表示形式を整える (例: 2026-04-18 -> 18日)
+  //     const dayDisplay = `${parseInt(dateStr.split("-")[2])}日`;
+
+  //     // 確認画面用のテキスト作成
+  //     if (start && end) {
+  //       confirmationMessage += `${dayDisplay}: ${start} - ${end}\n`;
+  //     } else {
+  //       confirmationMessage += `${dayDisplay}: シフトなし\n`;
+  //     }
+
+  //     // エラーチェック
+  //     if ((start && !end) || (!start && end)) {
+  //       hasError = true;
+  //       return;
+  //     }
+  //     if (start && end) {
+  //       const startDt = new Date(`${dateStr}T${start}:00`);
+  //       const endDt = new Date(`${dateStr}T${end}:00`);
+  //       if (startDt >= endDt) {
+  //         hasError = true;
+  //         return;
+  //       }
+  //     }
+
+  //     // 変更があったデータだけを送信リストに入れる
+  //     if (start !== originalStart || end !== originalEnd) {
+  //       shiftsToSubmit.push({
+  //         date: dateStr,
+  //         start: start,
+  //         end: end,
+  //         id: shiftId
+  //       });
+  //     }
+  //   });
+
+  //   if (hasError) {
+  //     alert("出勤・退勤時間の入力に誤りがある日が含まれています。\n時間を確認してください。");
+  //     return;
+  //   }
+
+  //   if (shiftsToSubmit.length === 0) {
+  //     alert("変更されたシフトがありません。");
+  //     return;
+  //   }
+
+  //   // 確認画面：今日以降の全スケジュールを表示
+  //   confirmationMessage += "\n以上の内容で提出してもよろしいですか？";
+  //   if (!confirm(confirmationMessage)) {
+  //     return;
+  //   }
+
+  //   // --- 以下、GASへの送信処理 ---
+  //   try {
+  //     submitBtn.disabled = true;
+  //     resultDiv.textContent = "提出中...";
+  //     resultDiv.classList.add("kousintyu");
+
+  //     const profile = await liff.getProfile();
+  //     const idToken = liff.getIDToken();
+
+  //     const formBody = new URLSearchParams({
+  //       action: "submitAll",
+  //       userId: profile.userId,
+  //       name: profile.displayName,
+  //       idToken: idToken,
+  //       shiftsData: JSON.stringify(shiftsToSubmit)
+  //     });
+
+  //     const res = await fetch(GAS_URL, {
+  //       method: "POST",
+  //       body: formBody
+  //     });
+
+  //     const data = await res.json();
+  //     if (!data.success) throw new Error(data.message || "提出に失敗しました");
+
+  //     alert("シフトの提出が完了しました！");
+  //     liff.closeWindow();
+
+  //   } catch (err) {
+  //     console.error(err);
+  //     alert("エラーが発生しました: " + err.message);
+  //   } finally {
+  //     submitBtn.disabled = false;
+  //     resultDiv.textContent = "";
+  //     resultDiv.classList.remove("kousintyu");
+  //   }
+  // });
+  // 提出ボタンの処理
   submitBtn.addEventListener("click", async () => {
     const shiftsToSubmit = [];
     let confirmationMessage = "【入力内容の確認】\n";
     const rows = document.querySelectorAll(".shift-row");
+    
     let hasError = false;
+    let hasTodayDeleteError = false; // ★追加：本日の削除エラー判定用
+
+    // ★追加：今日の日付を YYYY-MM-DD 形式で取得
+    const todayDate = new Date();
+    const todayStr = `${todayDate.getFullYear()}-${String(todayDate.getMonth() + 1).padStart(2, "0")}-${String(todayDate.getDate()).padStart(2, "0")}`;
 
     rows.forEach(row => {
       const dateStr = row.dataset.date;
       const shiftId = row.dataset.shiftId || "";
-      // ここ
-      // const originalStart = row.dataset.originalStart || "";
-      // const originalEnd = row.dataset.originalEnd || "";
+      
+      // 見えないスペースの混入を防ぐため .trim() を追加（送信バグ防止）
       let originalStart = (row.dataset.originalStart || "").trim();
       if (originalStart === "null" || originalStart === "undefined") originalStart = "";
-
       let originalEnd = (row.dataset.originalEnd || "").trim();
       if (originalEnd === "null" || originalEnd === "undefined") originalEnd = "";
-      // ここ
 
       const startSelect = row.querySelector(".start-time");
       const endSelect = row.querySelector(".end-time");
@@ -144,6 +264,17 @@ window.onload = async function () {
 
       const start = startSelect.value;
       const end = endSelect.value;
+
+      // ==========================================
+      // ★追加：本日のシフトを削除（空欄に）しようとした場合の制御
+      // ==========================================
+      if (dateStr === todayStr) {
+        // もともと時間が入っていたのに、両方とも空欄にされた場合
+        if (originalStart !== "" && start === "" && end === "") {
+          hasTodayDeleteError = true;
+          return;
+        }
+      }
 
       // 日付の表示形式を整える (例: 2026-04-18 -> 18日)
       const dayDisplay = `${parseInt(dateStr.split("-")[2])}日`;
@@ -155,7 +286,7 @@ window.onload = async function () {
         confirmationMessage += `${dayDisplay}: シフトなし\n`;
       }
 
-      // エラーチェック
+      // エラーチェック（片方だけ入力・時間の逆転）
       if ((start && !end) || (!start && end)) {
         hasError = true;
         return;
@@ -179,6 +310,30 @@ window.onload = async function () {
         });
       }
     });
+
+    // ★追加：本日の削除エラーがある場合のUI表示
+    if (hasTodayDeleteError) {
+      resultDiv.innerHTML = `
+        <div style="text-align: center; margin: 20px 0; padding: 15px; background-color: #fff0f5; border: 2px solid #ff4d8d; border-radius: 8px;">
+          <p style="color: #ff4d8d; font-weight: bold; margin-bottom: 15px;">
+            本日のシフトの休みについては下記からお願いします。
+          </p>
+          <button id="go-today-off-btn" style="padding: 10px 20px; background-color: #ff4d8d; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+            当欠・休み連絡はこちら
+          </button>
+        </div>
+      `;
+      window.scrollTo({ top: 0, behavior: 'smooth' }); // エラーが見えるように一番上までスクロール
+
+      // 別のLIFFアプリを開く処理
+      document.getElementById("go-today-off-btn").addEventListener("click", () => {
+        liff.openWindow({
+          url: "https://liff.line.me/2009827198-LyTrVRFv", // ★実際のURLに変更してください
+          external: false
+        });
+      });
+      return; // ここで処理を止める
+    }
 
     if (hasError) {
       alert("出勤・退勤時間の入力に誤りがある日が含まれています。\n時間を確認してください。");
@@ -229,8 +384,10 @@ window.onload = async function () {
       alert("エラーが発生しました: " + err.message);
     } finally {
       submitBtn.disabled = false;
-      resultDiv.textContent = "";
-      resultDiv.classList.remove("kousintyu");
+      if (!hasTodayDeleteError) {
+        resultDiv.textContent = "";
+        resultDiv.classList.remove("kousintyu");
+      }
     }
   });
 };
