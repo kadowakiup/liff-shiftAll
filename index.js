@@ -376,7 +376,7 @@ window.onload = async function () {
       const data = await res.json();
       if (!data.success) throw new Error(data.message || "提出に失敗しました");
 
-      alert("シフトの提出が完了しました！　一度閉じてから再度提出する際は5~10分ほど反映にお待ちください");
+      alert("シフトの提出が完了しました！<br>一度閉じてから再度提出する際は5~10分ほど反映にお待ちください");
       liff.closeWindow();
 
     } catch (err) {
