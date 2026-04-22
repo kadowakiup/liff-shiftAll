@@ -355,7 +355,7 @@ window.onload = async function () {
     try {
       submitBtn.disabled = true;
       resultDiv.textContent = "提出中...";
-      resultDiv.classList.add("kousintyu");
+      resultDiv.classList.add("kousintyu", "teisyutu");
 
       const profile = await liff.getProfile();
       const idToken = liff.getIDToken();
