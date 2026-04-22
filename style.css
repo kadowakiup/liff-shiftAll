@@ -29,7 +29,8 @@ body .kousintyu.teisyutu {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 100%;
 }
 body .title {
   text-align: center;

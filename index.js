@@ -386,7 +386,7 @@ window.onload = async function () {
       submitBtn.disabled = false;
       if (!hasTodayDeleteError) {
         resultDiv.textContent = "";
-        resultDiv.classList.remove("kousintyu");
+        resultDiv.classList.remove("kousintyu", "teisyutu");
       }
     }
   });
