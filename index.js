@@ -450,11 +450,17 @@ function renderMayShifts(shiftData) {
       continue;
     }
 
-    // 過去日判定（今日以前）
+    // 過去日・当日判定（今日以前）
     if (targetDate <= today) {
       const pastSpan = document.createElement("span");
       pastSpan.className = "past-text";
-      pastSpan.textContent = existingShift ? `${startVal} - ${endVal}` : "入力不可";
+      
+      // ▼ いずれ元に戻せるように、元のコードはコメントアウト（//）して残しておきます ▼
+      // pastSpan.textContent = existingShift ? `${startVal} - ${endVal}` : "入力不可";
+      
+      // ▼ 一時的にすべて「入力不可」と表示させる ▼
+      pastSpan.textContent = "入力不可"; 
+      
       row.appendChild(pastSpan);
       row.classList.add("dont");
       shiftListDiv.appendChild(row);
