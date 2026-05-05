@@ -450,8 +450,8 @@ function renderMayShifts(shiftData) {
       continue;
     }
 
-    // 過去日判定（今日より前）
-    if (targetDate < today) {
+    // 過去日判定（今日以前）
+    if (targetDate <= today) {
       const pastSpan = document.createElement("span");
       pastSpan.className = "past-text";
       pastSpan.textContent = existingShift ? `${startVal} - ${endVal}` : "入力不可";
