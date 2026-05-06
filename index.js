@@ -84,29 +84,40 @@ window.onload = async function () {
     console.error(err);
     isFetchError = true; // ★エラーフラグを立てる
 
-    // ★修正：エラーメッセージと登録画面への遷移ボタンを動的に作成
-    resultDiv.innerHTML = `
-      <div style="text-align: center; margin-top: 20px;">
-        <p style="color: #ff4d8d; font-weight: bold; margin-bottom: 15px;">
-          取得エラー：${err.message}<br>
-          先にメニュー「登録」から自分の名前を登録してください。
-        </p>
-        <p style="font-size: 12px; margin-bottom: 15px;">
-          ※登録完了後、再度メニューからこの画面を開き直してください。
-        </p>
-        <button id="go-register-btn" style="padding: 10px 20px; background-color: #06C755; color: white; border: none; border-radius: 5px; cursor: pointer;">
-          登録画面へ進む
-        </button>
-      </div>
-    `;
+    // ▼ 修正：エラー内容に「登録」が含まれているか、400エラーの場合だけボタンを出す
+    if (err.message.includes("登録") || err.message.includes("400")) {
+      resultDiv.innerHTML = `
+        <div style="text-align: center; margin-top: 20px;">
+          <p style="color: #ff4d8d; font-weight: bold; margin-bottom: 15px;">
+            LINE連携が見つかりません<br>
+            先にメニュー「登録」から自分の名前を登録してください。
+          </p>
+          <p style="font-size: 12px; margin-bottom: 15px;">
+            ※登録完了後、再度メニューからこの画面を開き直してください。
+          </p>
+          <button id="go-register-btn" style="padding: 10px 20px; background-color: #06C755; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            登録画面へ進む
+          </button>
+        </div>
+      `;
 
-    // ★修正：ボタンクリック時の処理（別LIFFを開く）
-    document.getElementById("go-register-btn").addEventListener("click", () => {
-      liff.openWindow({
-        url: "https://liff.line.me/2009827198-qvnHhjxl", // ←実際のURLに変更してください
-        external: false // LINE内ブラウザで開く
+      // ボタンクリック時の処理（別LIFFを開く）
+      document.getElementById("go-register-btn").addEventListener("click", () => {
+        liff.openWindow({
+          url: "https://liff.line.me/2009827198-qvnHhjxl", // ←実際のURL
+          external: false // LINE内ブラウザで開く
+        });
       });
-    });
+
+    } else {
+      // ▼ その他のシステムエラーや通信エラーの場合はボタンを出さない
+      resultDiv.innerHTML = `
+        <div style="text-align: center; margin-top: 20px; color: red;">
+          <p style="font-weight: bold;">エラーが発生しました</p>
+          <p style="font-size: 12px;">${err.message}</p>
+        </div>
+      `;
+    }
 
   } finally {
     resultDiv.classList.remove("kousintyu");
