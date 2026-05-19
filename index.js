@@ -78,6 +78,7 @@ window.onload = async function () {
 
     pageTitle.textContent = `${TARGET_MONTH}月シフト提出`;
     pageTitle.style.display = "block";
+    document.getElementById("notice-text").style.display = "block";
     submitBtn.style.display = "block";
 
   } catch (err) {
