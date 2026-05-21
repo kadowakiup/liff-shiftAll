@@ -17,9 +17,25 @@
 </head>
 <body>
   <div id="result"></div>
-  <h1 id="page-title" class="title" style="display: none;"></h1>
-  <p id="notice-text" style="display: none; text-align: center; font-size: 12px; color: #666; margin-bottom: 15px;">※14:00~15:00、16:50~17:00、18:50~19:00は休憩となります</p>
+  
+  <div id="month-selector" style="display: none;">
+    <p>入力する月を選択してください</p>
+    <!-- CSSでまとめてデザインできるように class="month-btn" を追加 -->
+    <button id="btn-current-month" class="month-btn"></button>
+    <button id="btn-next-month" class="month-btn"></button>
+  </div>
+
+  <div class="title-container">
+    <button id="back-btn" style="display: none;">
+      <img src="images/left_arrow.png" alt="戻る">
+    </button>
+    <h1 id="page-title" class="title" style="display: none;"></h1>
+  </div>
+
+  <p id="notice-text" style="display: none;">※14:00~15:00、16:50~17:00、18:50~19:00は休憩となります</p>
+  
   <div id="shift-list"></div>
+  
   <div class="button-container">
     <button id="submit-btn" style="display: none;">提出</button>
   </div>
