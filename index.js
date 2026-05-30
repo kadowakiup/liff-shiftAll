@@ -685,7 +685,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("back-btn").style.display = "none";
     document.getElementById("result").innerHTML = ""; 
 
-    monthSelector.style.display = "block";
+    document.getElementById("month-selector").style.display = "block";
   });
 
 });
