@@ -343,13 +343,21 @@ function renderShifts(shiftData) {
     if (targetDate <= today) {
       isReadOnly = true;
     } else {
-      // 2. 2026年6月の特例ルール（6/22までは、6/22以前のシフト変更不可）
+      
+     // 2. 2026年6月の特例ルール
       if (TARGET_YEAR === 2026 && TARGET_MONTH === 6) {
-        const cutoffDate = new Date(2026, 5, 22); // 2026年6月22日 (月は0から始まるため5)
-        if (today <= cutoffDate && targetDate <= cutoffDate) {
+        const cutoffDate = new Date(2026, 5, 22); // 2026年6月22日
+        
+        if (today <= cutoffDate) {
+          // 6/22までは、6/22以前のシフト変更不可（6/23以降は変更可能）
+          if (targetDate <= cutoffDate) {
+            isReadOnly = true;
+          }
+        } else {
+          // 6/23以降になったら、6月分のシフトはすべて（6/23〜月末も含め）変更不可
           isReadOnly = true;
         }
-      } 
+      }
       // 3. 7月以降（通常月）の固定ルール
       else {
         // 編集対象が「当月」の場合のみ制限をかける（来月分の事前提出は制限しない）
