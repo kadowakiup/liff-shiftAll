@@ -335,8 +335,41 @@ function renderShifts(shiftData) {
       continue;
     }
 
-    // === ★修正：過去日・当日判定（今日以前） ===
+
+// === ★修正：シフト変更可能期間ルールの適用 ===
+    let isReadOnly = false;
+
+    // 1. 過去日・当日は常に変更不可
     if (targetDate <= today) {
+      isReadOnly = true;
+    } else {
+      // 2. 2026年6月の特例ルール（6/22までは、6/22以前のシフト変更不可）
+      if (TARGET_YEAR === 2026 && TARGET_MONTH === 6) {
+        const cutoffDate = new Date(2026, 5, 22); // 2026年6月22日 (月は0から始まるため5)
+        if (today <= cutoffDate && targetDate <= cutoffDate) {
+          isReadOnly = true;
+        }
+      } 
+      // 3. 7月以降（通常月）の固定ルール
+      else {
+        // 編集対象が「当月」の場合のみ制限をかける（来月分の事前提出は制限しない）
+        if (today.getFullYear() === TARGET_YEAR && (today.getMonth() + 1) === TARGET_MONTH) {
+          const currentDay = today.getDate();
+          const targetDay = day; // ループで回している日付
+          
+          if (currentDay >= 1 && targetDay <= 10) {
+            isReadOnly = true;
+          } else if (currentDay >= 11 && targetDay >= 11 && targetDay <= 20) {
+            isReadOnly = true;
+          } else if (currentDay >= 21 && targetDay >= 21) {
+            isReadOnly = true;
+          }
+        }
+      }
+    }
+
+    // 変更不可(isReadOnly)の場合は、時間をテキストで表示（入力不可にする）
+    if (isReadOnly) {
       const pastSpan = document.createElement("span");
       pastSpan.className = "past-text";
       
